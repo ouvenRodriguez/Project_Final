@@ -51,8 +51,6 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
-
-// Componente de barra de progreso con etiqueta
 function LinearProgressWithLabel(props) {
   return (
     <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
@@ -68,7 +66,6 @@ function LinearProgressWithLabel(props) {
   );
 }
 
-// Componente principal de progreso animado
 function LinearWithValueLabel() {
   const [progress, setProgress] = React.useState(10);
 
@@ -88,7 +85,6 @@ function LinearWithValueLabel() {
   );
 }
 
-// Edit Modal Component
 function EditModal({ open, handleClose, project, onSave }) {
   const [formData, setFormData] = React.useState({
     title: '',
@@ -146,11 +142,9 @@ function EditModal({ open, handleClose, project, onSave }) {
     e.preventDefault();
     
     if (localStorage.getItem('@role') === 'Coordinador') {
-      // Si es coordinador, solo enviamos el estado
       const statusData = { status: formData.status };
       await onSave(statusData);
     } else {
-      // Si es profesor, validamos y enviamos todos los campos excepto el estado
       if (!formData.title || !formData.area || !formData.objectives || 
           !formData.schedule.startDate || !formData.schedule.endDate || 
           !formData.budget || !formData.institution) {
@@ -190,7 +184,6 @@ function EditModal({ open, handleClose, project, onSave }) {
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 2 }}>
           {isCoordinator ? (
-            // Solo mostrar el campo de estado para coordinadores
             <FormControl required fullWidth>
               <InputLabel id="status-label">Estado del Proyecto</InputLabel>
               <Select
@@ -209,9 +202,7 @@ function EditModal({ open, handleClose, project, onSave }) {
               </Select>
             </FormControl>
           ) : (
-            // Mostrar todos los campos excepto el estado para profesores
             <>
-              {/* Título y Área */}
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <TextField
                   label="Título del Proyecto"
@@ -245,7 +236,6 @@ function EditModal({ open, handleClose, project, onSave }) {
                 </FormControl>
               </Box>
 
-              {/* Objetivos */}
               <TextField
                 label="Objetivos"
                 name="objectives"
@@ -261,7 +251,6 @@ function EditModal({ open, handleClose, project, onSave }) {
                 }}
               />
 
-              {/* Fechas, Presupuesto e Institución */}
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <Box sx={{ flex: 1 }}>
                   <Calendar
@@ -304,7 +293,6 @@ function EditModal({ open, handleClose, project, onSave }) {
                 </FormControl>
               </Box>
 
-              {/* Observaciones */}
               <TextField
                 label="Observaciones Adicionales"
                 name="observations"
@@ -351,7 +339,6 @@ function EditModal({ open, handleClose, project, onSave }) {
   );
 }
 
-// Info Modal Component
 function InfoModal({ open, handleClose, project }) {
   return (
     <Dialog 
@@ -366,7 +353,6 @@ function InfoModal({ open, handleClose, project }) {
       </DialogTitle>
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {/* Información General */}
           <div className="data-section">
             <Typography className="data-header">Información General</Typography>
             <div className="data-row">
@@ -387,7 +373,6 @@ function InfoModal({ open, handleClose, project }) {
             </div>
           </div>
 
-          {/* Cronograma y Presupuesto */}
           <div className="data-section">
             <Typography className="data-header">Cronograma y Presupuesto</Typography>
             <div className="data-row">
@@ -410,7 +395,6 @@ function InfoModal({ open, handleClose, project }) {
             </div>
           </div>
 
-          {/* Objetivos */}
           <div className="data-section">
             <Typography className="data-header">Objetivos</Typography>
             <div className="data-row">
@@ -420,7 +404,6 @@ function InfoModal({ open, handleClose, project }) {
             </div>
           </div>
 
-          {/* Equipo */}
           <div className="data-section">
             <Typography className="data-header">Equipo</Typography>
             <div className="data-row">
@@ -436,7 +419,6 @@ function InfoModal({ open, handleClose, project }) {
             </div>
           </div>
 
-          {/* Observaciones */}
           {project.comments && (
             <div className="data-section">
               <Typography className="data-header">Observaciones</Typography>
@@ -461,7 +443,6 @@ function InfoModal({ open, handleClose, project }) {
   );
 }
 
-// Modificar el componente DocumentModal a AdvanceModal
 function AdvanceModal({ open, handleClose, project, onSuccess }) {
   const [description, setDescription] = React.useState('');
   const [date, setDate] = React.useState(dayjs());
@@ -470,7 +451,6 @@ function AdvanceModal({ open, handleClose, project, onSuccess }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState('');
 
-  // Reset form when modal closes
   const handleCloseModal = () => {
     setDescription('');
     setDate(dayjs());
@@ -690,7 +670,6 @@ function AdvanceModal({ open, handleClose, project, onSuccess }) {
   );
 }
 
-// Fila con expansión
 function Row(props) {
   const { row, onEdit, onDelete, role } = props;
   const [open, setOpen] = React.useState(false);
@@ -699,7 +678,6 @@ function Row(props) {
   const [advanceModalOpen, setAdvanceModalOpen] = React.useState(false);
   const [selectedAdvance, setSelectedAdvance] = React.useState(null);
 
-  // Función para formatear los nombres del equipo
   const formatTeamNames = (team) => {
     if (!Array.isArray(team)) return '';
     return team.map(member => member.id).join(', ');
@@ -755,7 +733,6 @@ function Row(props) {
                 Avances del Proyecto
               </Typography>
 
-              {/* Tabla de avances resumidos con scroll */}
               <Box sx={{ maxHeight: 140, overflowY: 'auto', mt: 2 }}>
                 <Table size="small" aria-label="project advances">
                   <TableHead>
@@ -781,7 +758,6 @@ function Row(props) {
                 </Table>
               </Box>
 
-              {/* Modal para ver archivos del avance */}
               <Dialog open={!!selectedAdvance} onClose={() => setSelectedAdvance(null)} maxWidth="sm" fullWidth>
                 <DialogTitle>Archivos del Avance</DialogTitle>
                 <DialogContent>
@@ -858,7 +834,6 @@ function Row(props) {
                 </DialogActions>
               </Dialog>
 
-              {/* Progreso y botones */}
               <Box sx={{ mt: 2 }}>
                 <div className="header-info">
                   <Typography variant="subtitle1" gutterBottom>
@@ -904,7 +879,6 @@ function Row(props) {
         handleClose={() => setAdvanceModalOpen(false)}
         project={row}
         onSuccess={() => {
-          // Refresh the project data instead of loading advances separately
           fetchProjects();
         }}
       />
@@ -912,7 +886,6 @@ function Row(props) {
   );
 }
 
-// Componente principal
 export default function ListProject() {
   const [page, setPage] = React.useState(1);
   const [search, setSearch] = React.useState("");
@@ -966,10 +939,8 @@ export default function ListProject() {
 
       let response;
       if (localStorage.getItem('@role') === 'Coordinador') {
-        // Si es coordinador, actualizar solo el estado
         response = await updateStatus(projectId, formData);
       } else {
-        // Si es profesor, actualizar el proyecto
         response = await updateProject(projectId, formData);
       }
 
@@ -1040,12 +1011,10 @@ export default function ListProject() {
     setSnackbar(prev => ({ ...prev, open: false }));
   };
 
-  // Lógica de filtrado
   const filteredProjects = Array.isArray(projects) ? projects.filter(project =>
     project.title?.toLowerCase().includes(search.toLowerCase())
   ) : [];
 
-  // Calcular el índice inicial y final para la paginación
   const indexOfLastRow = page * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentProjects = filteredProjects.slice(indexOfFirstRow, indexOfLastRow);

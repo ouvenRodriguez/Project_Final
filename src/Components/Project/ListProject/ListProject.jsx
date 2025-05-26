@@ -53,8 +53,6 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import ModalConfirmarEliminacion from '../componentes/ModalConfirmarEliminacion';
 
-
-// Componente de barra de progreso con etiqueta
 function LinearProgressWithLabel(props) {
   return (
     <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
@@ -70,7 +68,6 @@ function LinearProgressWithLabel(props) {
   );
 }
 
-// Componente principal de progreso animado
 function LinearWithValueLabel() {
   const [progress, setProgress] = React.useState(10);
 
@@ -90,7 +87,6 @@ function LinearWithValueLabel() {
   );
 }
 
-// Edit Modal Component
 function EditModal({ open, handleClose, project, onSave }) {
   const [formData, setFormData] = React.useState({
     title: '',
@@ -148,11 +144,9 @@ function EditModal({ open, handleClose, project, onSave }) {
     e.preventDefault();
     
     if (localStorage.getItem('@role') === 'Coordinador') {
-      // Si es coordinador, solo enviamos el estado
       const statusData = { status: formData.status };
       await onSave(statusData);
     } else {
-      // Si es profesor, validamos y enviamos todos los campos excepto el estado
       if (!formData.title || !formData.area || !formData.objectives || 
           !formData.schedule.startDate || !formData.schedule.endDate || 
           !formData.budget || !formData.institution) {
@@ -192,7 +186,6 @@ function EditModal({ open, handleClose, project, onSave }) {
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 2 }}>
           {isCoordinator ? (
-            // Solo mostrar el campo de estado para coordinadores
             <FormControl required fullWidth>
               <InputLabel id="status-label">Estado del Proyecto</InputLabel>
               <Select
@@ -211,9 +204,7 @@ function EditModal({ open, handleClose, project, onSave }) {
               </Select>
             </FormControl>
           ) : (
-            // Mostrar todos los campos excepto el estado para profesores
             <>
-              {/* Título y Área */}
               <Box sx={{ display: 'flex', gap: 2 }}>
                 <TextField
                   label="Título del Proyecto"
@@ -247,31 +238,27 @@ function EditModal({ open, handleClose, project, onSave }) {
                 </FormControl>
               </Box>
 
-              {/* Objetivos */}
               <TextField
                 label="Objetivos"
                 name="objectives"
                 value={formData.objectives}
                 onChange={handleChange}
-                fullWidth
                 multiline
                 rows={3}
                 required
+                fullWidth
                 variant="outlined"
                 InputProps={{
                   sx: { borderRadius: 2 }
                 }}
               />
 
-              {/* Fechas, Presupuesto e Institución */}
               <Box sx={{ display: 'flex', gap: 2 }}>
-                <Box sx={{ flex: 1 }}>
-                  <Calendar
-                    startDate={formData.schedule.startDate}
-                    endDate={formData.schedule.endDate}
-                    onDateChange={handleDateChange}
-                  />
-                </Box>
+                <Calendar
+                  startDate={formData.schedule.startDate}
+                  endDate={formData.schedule.endDate}
+                  onDateChange={handleDateChange}
+                />
 
                 <FormControl required fullWidth>
                   <InputLabel htmlFor="budget">Presupuesto</InputLabel>
@@ -298,23 +285,22 @@ function EditModal({ open, handleClose, project, onSave }) {
                     sx={{ borderRadius: 2 }}
                   >
                     <MenuItem value="Universidad Nacional">Universidad Nacional</MenuItem>
-                    <MenuItem value="Universidad de Antioquia">Universidad de Antioquia</MenuItem>
-                    <MenuItem value="Universidad de Medellín">Universidad de Medellín</MenuItem>
-                    <MenuItem value="Universidad EAFIT">Universidad EAFIT</MenuItem>
-                    <MenuItem value="Universidad Pontificia Bolivariana">Universidad Pontificia Bolivariana</MenuItem>
+                    <MenuItem value="Universidad de los Andes">Universidad de los Andes</MenuItem>
+                    <MenuItem value="Universidad Javeriana">Universidad Javeriana</MenuItem>
+                    <MenuItem value="Universidad del Rosario">Universidad del Rosario</MenuItem>
+                    <MenuItem value="Universidad Externado">Universidad Externado</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
 
-              {/* Observaciones */}
               <TextField
-                label="Observaciones Adicionales"
+                label="Observaciones"
                 name="observations"
                 value={formData.observations}
                 onChange={handleChange}
-                fullWidth
                 multiline
-                rows={4}
+                rows={3}
+                fullWidth
                 variant="outlined"
                 InputProps={{
                   sx: { borderRadius: 2 }
@@ -325,27 +311,8 @@ function EditModal({ open, handleClose, project, onSave }) {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button 
-          onClick={handleClose}
-          variant="outlined"
-          sx={{ 
-            mr: 1,
-            '&:hover': {
-              backgroundColor: 'rgba(25, 118, 210, 0.04)'
-            }
-          }}
-        >
-          Cancelar
-        </Button>
-        <Button 
-          onClick={handleSubmit} 
-          variant="contained"
-          sx={{
-            '&:hover': {
-              backgroundColor: '#1565c0'
-            }
-          }}
-        >
+        <Button onClick={handleClose}>Cancelar</Button>
+        <Button onClick={handleSubmit} variant="contained" color="primary">
           Guardar Cambios
         </Button>
       </DialogActions>
@@ -353,383 +320,315 @@ function EditModal({ open, handleClose, project, onSave }) {
   );
 }
 
-// Info Modal Component
 function InfoModal({ open, handleClose, project }) {
   return (
-    <Dialog 
-      open={open} 
+    <Dialog
+      open={open}
       onClose={handleClose}
-      className="info-modal"
       maxWidth="md"
       fullWidth
     >
-      <DialogTitle>
-        Información Detallada del Proyecto
-      </DialogTitle>
+      <DialogTitle>Detalles del Proyecto</DialogTitle>
       <DialogContent>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {/* Información General */}
-          <div className="data-section">
-            <Typography className="data-header">Información General</Typography>
-            <div className="data-row">
-              <Typography className="data-label">Título:</Typography>
-              <Typography className="data-value">{project.title}</Typography>
-            </div>
-            <div className="data-row">
-              <Typography className="data-label">Área:</Typography>
-              <Typography className="data-value">{project.area}</Typography>
-            </div>
-            <div className="data-row">
-              <Typography className="data-label">Institución:</Typography>
-              <Typography className="data-value">{project.institution}</Typography>
-            </div>
-            <div className="data-row">
-              <Typography className="data-label">Estado:</Typography>
-              <Typography className="data-value">{project.status}</Typography>
-            </div>
-          </div>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 2 }}>
+          <Typography variant="h6">Información General</Typography>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <TextField
+              label="Título"
+              value={project?.title || ''}
+              fullWidth
+              InputProps={{ readOnly: true }}
+            />
+            <TextField
+              label="Área"
+              value={project?.area || ''}
+              fullWidth
+              InputProps={{ readOnly: true }}
+            />
+          </Box>
 
-          {/* Cronograma y Presupuesto */}
-          <div className="data-section">
-            <Typography className="data-header">Cronograma y Presupuesto</Typography>
-            <div className="data-row">
-              <Typography className="data-label">Fecha de Inicio:</Typography>
-              <Typography className="data-value">
-                {new Date(project.dateStart).toLocaleDateString()}
-              </Typography>
-            </div>
-            <div className="data-row">
-              <Typography className="data-label">Fecha de Finalización:</Typography>
-              <Typography className="data-value">
-                {new Date(project.dateEnd).toLocaleDateString()}
-              </Typography>
-            </div>
-            <div className="data-row">
-              <Typography className="data-label">Presupuesto:</Typography>
-              <Typography className="data-value">
-                ${project.budget.toLocaleString()}
-              </Typography>
-            </div>
-          </div>
+          <TextField
+            label="Objetivos"
+            value={project?.objectives || ''}
+            multiline
+            rows={3}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
 
-          {/* Objetivos */}
-          <div className="data-section">
-            <Typography className="data-header">Objetivos</Typography>
-            <div className="data-row">
-              <Typography className="data-value long-text">
-                {project.objectives}
-              </Typography>
-            </div>
-          </div>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <TextField
+              label="Fecha de Inicio"
+              value={project?.dateStart ? new Date(project.dateStart).toLocaleDateString() : ''}
+              fullWidth
+              InputProps={{ readOnly: true }}
+            />
+            <TextField
+              label="Fecha de Fin"
+              value={project?.dateEnd ? new Date(project.dateEnd).toLocaleDateString() : ''}
+              fullWidth
+              InputProps={{ readOnly: true }}
+            />
+          </Box>
 
-          {/* Equipo */}
-          <div className="data-section">
-            <Typography className="data-header">Equipo</Typography>
-            <div className="data-row">
-              <div className="team-list">
-                {Array.isArray(project.team) ? project.team.map((member, index) => (
-                  <span key={index} className="team-member">
-                    {member.name}
-                  </span>
-                )) : (
-                  <Typography className="data-value">No hay miembros asignados</Typography>
-                )}
-              </div>
-            </div>
-          </div>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <TextField
+              label="Presupuesto"
+              value={project?.budget ? `$${project.budget}` : ''}
+              fullWidth
+              InputProps={{ readOnly: true }}
+            />
+            <TextField
+              label="Institución"
+              value={project?.institution || ''}
+              fullWidth
+              InputProps={{ readOnly: true }}
+            />
+          </Box>
 
-          {/* Observaciones */}
-          {project.comments && (
-            <div className="data-section">
-              <Typography className="data-header">Observaciones</Typography>
-              <div className="data-row">
-                <Typography className="data-value long-text">
-                  {project.comments}
-                </Typography>
-              </div>
-            </div>
-          )}
+          <TextField
+            label="Observaciones"
+            value={project?.comments || ''}
+            multiline
+            rows={3}
+            fullWidth
+            InputProps={{ readOnly: true }}
+          />
+
+          <Typography variant="h6" sx={{ mt: 2 }}>Equipo de Trabajo</Typography>
+          <List>
+            {project?.team?.map((member, index) => (
+              <ListItem key={index}>
+                <ListItemText
+                  primary={member.name}
+                  secondary={member.email}
+                />
+              </ListItem>
+            ))}
+          </List>
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button 
-          onClick={handleClose}
-          variant="contained"
-        >
-          Cerrar
-        </Button>
+        <Button onClick={handleClose}>Cerrar</Button>
       </DialogActions>
     </Dialog>
   );
 }
 
-// Modificar el componente DocumentModal a AdvanceModal
 function AdvanceModal({ open, handleClose, project, onSuccess }) {
-  const [description, setDescription] = React.useState('');
-  const [date, setDate] = React.useState(dayjs());
-  const [documents, setDocuments] = React.useState([]);
-  const [photos, setPhotos] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState('');
+  const [formData, setFormData] = React.useState({
+    description: '',
+    documents: [],
+    photos: []
+  });
 
-  // Reset form when modal closes
   const handleCloseModal = () => {
-    setDescription('');
-    setDate(dayjs());
-    setDocuments([]);
-    setPhotos([]);
-    setError('');
+    setFormData({
+      description: '',
+      documents: [],
+      photos: []
+    });
     handleClose();
   };
 
   const handleDocumentChange = (event) => {
     const files = Array.from(event.target.files);
-    if (files.length + documents.length > 5) {
-      setError('Máximo 5 documentos permitidos');
-      return;
-    }
-    setDocuments(prev => [...prev, ...files]);
-    setError('');
+    setFormData(prev => ({
+      ...prev,
+      documents: [...prev.documents, ...files]
+    }));
   };
 
   const handlePhotoChange = (event) => {
     const files = Array.from(event.target.files);
-    if (files.length + photos.length > 5) {
-      setError('Máximo 5 fotos permitidas');
-      return;
-    }
-    setPhotos(prev => [...prev, ...files]);
-    setError('');
+    setFormData(prev => ({
+      ...prev,
+      photos: [...prev.photos, ...files]
+    }));
   };
 
   const removeDocument = (index) => {
-    setDocuments(prev => prev.filter((_, i) => i !== index));
+    setFormData(prev => ({
+      ...prev,
+      documents: prev.documents.filter((_, i) => i !== index)
+    }));
   };
 
   const removePhoto = (index) => {
-    setPhotos(prev => prev.filter((_, i) => i !== index));
+    setFormData(prev => ({
+      ...prev,
+      photos: prev.photos.filter((_, i) => i !== index)
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!description || !date) {
-      setError('Por favor complete todos los campos requeridos');
+    
+    if (!formData.description) {
+      alert('Por favor, ingresa una descripción del avance');
       return;
     }
-    setLoading(true);
-    setError('');
-    try {
-      const advanceData = {
-        date: date.toISOString(),
-        description: description,
-        documents: documents,
-        photos: photos
-      };
 
-      const response = await createProjectAdvance(project._id, advanceData);
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('description', formData.description);
+      formDataToSend.append('projectId', project._id);
+
+      formData.documents.forEach((doc, index) => {
+        formDataToSend.append(`documents`, doc);
+      });
+
+      formData.photos.forEach((photo, index) => {
+        formDataToSend.append(`photos`, photo);
+      });
+
+      const response = await createProjectAdvance(formDataToSend);
+      
       if (response.success) {
+        alert('Avance registrado exitosamente');
         onSuccess();
         handleCloseModal();
       } else {
-        setError(response.message || 'Error al crear el avance');
+        alert('Error al registrar el avance: ' + response.message);
       }
     } catch (error) {
-      setError('Error al crear el avance');
       console.error('Error:', error);
-    } finally {
-      setLoading(false);
+      alert('Hubo un error al registrar el avance. Por favor, intenta de nuevo.');
     }
   };
 
   return (
-    <Dialog 
-      open={open} 
+    <Dialog
+      open={open}
       onClose={handleCloseModal}
-      className="modal-avance"
       maxWidth="md"
       fullWidth
     >
-      <DialogTitle className="modal-avance-titulo">
-        <AttachFileIcon sx={{ mr: 1 }} />
-        Agregar Avance del Proyecto
-      </DialogTitle>
+      <DialogTitle>Registrar Avance</DialogTitle>
       <DialogContent>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, pt: 2 }}>
-          {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
-            </Alert>
-          )}
-          
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 2 }}>
           <TextField
             label="Descripción del Avance"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            fullWidth
+            value={formData.description}
+            onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
             multiline
             rows={4}
             required
-            variant="outlined"
-            InputProps={{
-              sx: { borderRadius: 2 }
-            }}
+            fullWidth
           />
 
           <Box sx={{ display: 'flex', gap: 2 }}>
-            <Box
-              sx={{
-                flex: 1,
-                border: '2px dashed #1976d2',
-                borderRadius: 2,
-                p: 3,
-                textAlign: 'center',
-                cursor: 'pointer',
-                '&:hover': {
-                  backgroundColor: 'rgba(25, 118, 210, 0.04)'
-                }
-              }}
-              component="label"
-            >
+            <Box sx={{ flex: 1 }}>
+              <Typography variant="subtitle1" sx={{ mb: 1 }}>Documentos</Typography>
               <input
                 type="file"
-                hidden
                 multiple
+                accept=".pdf,.doc,.docx"
                 onChange={handleDocumentChange}
-                accept=".pdf,.doc,.docx,.txt"
+                style={{ display: 'none' }}
+                id="document-upload"
               />
-              <AttachFileIcon sx={{ fontSize: 40, color: '#1976d2', mb: 1 }} />
-              <Typography variant="body1" color="textSecondary">
-                {documents.length > 0 
-                  ? `${documents.length} documento(s) seleccionado(s)`
-                  : 'Arrastra y suelta documentos o haz clic para seleccionar'}
-              </Typography>
-              {documents.length > 0 && (
-                <List>
-                  {documents.map((doc, index) => (
-                    <ListItem key={index} secondaryAction={
+              <label htmlFor="document-upload">
+                <Button
+                  variant="outlined"
+                  component="span"
+                  startIcon={<AttachFileIcon />}
+                  fullWidth
+                >
+                  Agregar Documentos
+                </Button>
+              </label>
+              <List>
+                {formData.documents.map((doc, index) => (
+                  <ListItem
+                    key={index}
+                    secondaryAction={
                       <IconButton edge="end" onClick={() => removeDocument(index)}>
                         <DeleteIcon />
                       </IconButton>
-                    }>
-                      <ListItemText primary={doc.name} />
-                    </ListItem>
-                  ))}
-                </List>
-              )}
+                    }
+                  >
+                    <ListItemIcon>
+                      <PictureAsPdfIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={doc.name} />
+                  </ListItem>
+                ))}
+              </List>
             </Box>
 
-            <Box
-              sx={{
-                flex: 1,
-                border: '2px dashed #1976d2',
-                borderRadius: 2,
-                p: 3,
-                textAlign: 'center',
-                cursor: 'pointer',
-                '&:hover': {
-                  backgroundColor: 'rgba(25, 118, 210, 0.04)'
-                }
-              }}
-              component="label"
-            >
+            <Box sx={{ flex: 1 }}>
+              <Typography variant="subtitle1" sx={{ mb: 1 }}>Fotos</Typography>
               <input
                 type="file"
-                hidden
                 multiple
-                onChange={handlePhotoChange}
                 accept="image/*"
+                onChange={handlePhotoChange}
+                style={{ display: 'none' }}
+                id="photo-upload"
               />
-              <PhotoIcon sx={{ fontSize: 40, color: '#1976d2', mb: 1 }} />
-              <Typography variant="body1" color="textSecondary">
-                {photos.length > 0 
-                  ? `${photos.length} foto(s) seleccionada(s)`
-                  : 'Arrastra y suelta fotos o haz clic para seleccionar'}
-              </Typography>
-              {photos.length > 0 && (
-                <List>
-                  {photos.map((photo, index) => (
-                    <ListItem key={index} secondaryAction={
+              <label htmlFor="photo-upload">
+                <Button
+                  variant="outlined"
+                  component="span"
+                  startIcon={<PhotoIcon />}
+                  fullWidth
+                >
+                  Agregar Fotos
+                </Button>
+              </label>
+              <List>
+                {formData.photos.map((photo, index) => (
+                  <ListItem
+                    key={index}
+                    secondaryAction={
                       <IconButton edge="end" onClick={() => removePhoto(index)}>
                         <DeleteIcon />
                       </IconButton>
-                    }>
-                      <ListItemText primary={photo.name} />
-                    </ListItem>
-                  ))}
-                </List>
-              )}
+                    }
+                  >
+                    <ListItemIcon>
+                      <ImageIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={photo.name} />
+                  </ListItem>
+                ))}
+              </List>
             </Box>
           </Box>
         </Box>
       </DialogContent>
-      <DialogActions sx={{ p: 3, pt: 0 }}>
-        <Button 
-          onClick={handleCloseModal}
-          variant="outlined"
-          sx={{ 
-            mr: 1,
-            '&:hover': {
-              backgroundColor: 'rgba(25, 118, 210, 0.04)'
-            }
-          }}
-        >
-          Cancelar
-        </Button>
-        <Button 
-          onClick={handleSubmit}
-          variant="contained"
-          disabled={!description || !date || loading}
-          sx={{
-            '&:hover': {
-              backgroundColor: '#1565c0'
-            }
-          }}
-        >
-          {loading ? 'Guardando...' : 'Guardar Avance'}
+      <DialogActions>
+        <Button onClick={handleCloseModal}>Cancelar</Button>
+        <Button onClick={handleSubmit} variant="contained" color="primary">
+          Registrar Avance
         </Button>
       </DialogActions>
     </Dialog>
   );
 }
 
-// Fila con expansión
 function Row(props) {
-  const { row, onEdit, onDelete, role } = props;
+  const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const [advances, setAdvances] = React.useState([]);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
   const [infoModalOpen, setInfoModalOpen] = React.useState(false);
   const [advanceModalOpen, setAdvanceModalOpen] = React.useState(false);
-  const [advances, setAdvances] = React.useState([]);
-  const [loadingAdvances, setLoadingAdvances] = React.useState(false);
-  const [selectedAdvance, setSelectedAdvance] = React.useState(null);
-  // Estado para el modal de confirmación
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
 
-  // Función para cargar los avances del proyecto
   const loadAdvances = async () => {
-    setLoadingAdvances(true);
     try {
       const response = await getProjectAdvances(row._id);
-      if (response.success && response.body.data) {
+      if (response.success) {
         setAdvances(response.body.data);
       }
     } catch (error) {
-      console.error('Error loading advances:', error);
-    } finally {
-      setLoadingAdvances(false);
+      console.error('Error al cargar avances:', error);
     }
   };
 
-  // Cargar avances cuando se expande la fila
-  React.useEffect(() => {
-    if (open) {
-      loadAdvances();
-    }
-  }, [open]);
-
-  // Función para formatear los nombres del equipo
   const formatTeamNames = (team) => {
-    if (!Array.isArray(team)) return '';
     return team.map(member => member.name).join(', ');
   };
 
@@ -737,28 +636,24 @@ function Row(props) {
     setEditModalOpen(true);
   };
 
-  // Nuevo: abrir modal de confirmación
   const handleDeleteClick = () => {
-    setConfirmDeleteOpen(true);
+    setDeleteModalOpen(true);
   };
 
-  // Nuevo: confirmar eliminación
   const handleConfirmDelete = async () => {
-    setConfirmDeleteOpen(false);
-    await onDelete(row._id);
+    await props.onDelete(row._id);
+    setDeleteModalOpen(false);
   };
 
-  // Nuevo: cancelar eliminación
   const handleCancelDelete = () => {
-    setConfirmDeleteOpen(false);
+    setDeleteModalOpen(false);
   };
 
   return (
     <React.Fragment>
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <IconButton
-            aria-label="expand row"
             size="small"
             onClick={() => setOpen(!open)}
           >
@@ -768,224 +663,127 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.title}
         </TableCell>
-        <TableCell align="center">{row.area}</TableCell>
-        <TableCell align="center">{row.institution}</TableCell>
-        <TableCell align="center">{`${new Date(row.dateStart).toLocaleDateString()} - ${new Date(row.dateEnd).toLocaleDateString()}`}</TableCell>
-        <TableCell align="center">{row.status}</TableCell>
-        {role !== 'Estudiante' && (
-          <TableCell>
-            <div className="actions-container">
-              <button className="edit-button" onClick={handleEdit}>
-                <EditIcon className="edit-icon" />
-              </button>
-              <button className="delete-button" onClick={handleDeleteClick}>
-                <DeleteForeverIcon className="delete-icon" />
-              </button>
-            </div>
-          </TableCell>
-        )}
+        <TableCell align="right">{row.area}</TableCell>
+        <TableCell align="right">{row.status}</TableCell>
+        <TableCell align="right">
+          <IconButton onClick={handleEdit} color="primary">
+            <EditIcon />
+          </IconButton>
+          <IconButton onClick={handleDeleteClick} color="error">
+            <DeleteForeverIcon />
+          </IconButton>
+        </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" component="div">
-                Avances del Proyecto
+              <Typography variant="h6" gutterBottom component="div">
+                Detalles del Proyecto
               </Typography>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Objetivos</TableCell>
+                    <TableCell>Equipo</TableCell>
+                    <TableCell>Presupuesto</TableCell>
+                    <TableCell>Institución</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>{row.objectives}</TableCell>
+                    <TableCell>{formatTeamNames(row.team)}</TableCell>
+                    <TableCell>${row.budget}</TableCell>
+                    <TableCell>{row.institution}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
 
-              {/* Tabla de avances resumidos con scroll */}
-              <Box sx={{ maxHeight: 140, overflowY: 'auto', mt: 2 }}>
-                <Table size="small" aria-label="project advances">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell><b>Fecha</b></TableCell>
-                      <TableCell><b>Descripción</b></TableCell>
-                      <TableCell align="center"><b></b></TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {advances.map((advance, idx) => (
-                      <TableRow key={advance._id || idx}>
-                        <TableCell>{new Date(advance.date).toLocaleDateString()}</TableCell>
-                        <TableCell>{advance.description}</TableCell>
-                        <TableCell align="center">
-                          <IconButton onClick={() => setSelectedAdvance(advance)}>
-                            <FolderOpenIcon color="primary" />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
-
-              {/* Modal para ver archivos del avance */}
-              <Dialog open={!!selectedAdvance} onClose={() => setSelectedAdvance(null)} maxWidth="sm" fullWidth>
-                <DialogTitle>Archivos del Avance</DialogTitle>
-                <DialogContent>
-                  {selectedAdvance && (
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                      {selectedAdvance.documents?.length > 0 && (
-                        <Box>
-                          <Typography variant="subtitle2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <DescriptionIcon color="primary" /> Documentos:
-                          </Typography>
-                          <List dense>
-                            {selectedAdvance.documents.map((doc, index) => (
-                              <ListItem key={index}>
-                                <ListItemIcon>
-                                  {doc.toLowerCase().endsWith('.pdf') ? (
-                                    <PictureAsPdfIcon color="error" />
-                                  ) : (
-                                    <InsertDriveFileIcon color="primary" />
-                                  )}
-                                </ListItemIcon>
-                                <ListItemText 
-                                  primary={
-                                    <a 
-                                      href={doc} 
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      style={{ textDecoration: 'none', color: '#1976d2', display: 'flex', alignItems: 'center', gap: '8px' }}
-                                    >
-                                      {doc.split('/').pop()}
-                                    </a>
-                                  }
-                                />
-                              </ListItem>
-                            ))}
-                          </List>
-                        </Box>
-                      )}
-                      {selectedAdvance.photos?.length > 0 && (
-                        <Box>
-                          <Typography variant="subtitle2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <ImageIcon color="primary" /> Fotos:
-                          </Typography>
-                          <List dense>
-                            {selectedAdvance.photos.map((photo, index) => (
-                              <ListItem key={index}>
-                                <ListItemIcon>
-                                  <ImageIcon color="primary" />
-                                </ListItemIcon>
-                                <ListItemText 
-                                  primary={
-                                    <a 
-                                      href={photo} 
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      style={{ textDecoration: 'none', color: '#1976d2', display: 'flex', alignItems: 'center', gap: '8px' }}
-                                    >
-                                      {photo.split('/').pop()}
-                                    </a>
-                                  }
-                                />
-                              </ListItem>
-                            ))}
-                          </List>
-                        </Box>
-                      )}
-                      {(!selectedAdvance.documents?.length && !selectedAdvance.photos?.length) && (
-                        <Typography color="text.secondary">No hay archivos para este avance.</Typography>
-                      )}
-                    </Box>
-                  )}
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={() => setSelectedAdvance(null)} variant="contained">Cerrar</Button>
-                </DialogActions>
-              </Dialog>
-
-              {/* Progreso y botones */}
               <Box sx={{ mt: 2 }}>
-                <div className="header-info">
-                  <Typography variant="subtitle1" gutterBottom>
-                    Progreso del Proyecto
-                  </Typography>
-                  <div className="grupo-botones">
-                    {role === 'Estudiante' && (
-                      <button 
-                        className="btn-avance"
-                        onClick={() => setAdvanceModalOpen(true)}
-                      >
-                        <AttachFileIcon sx={{ mr: 1 }} />
-                        Agregar Avance
-                      </button>
-                    )}
-                    <button 
-                      className="btn-info"
-                      onClick={() => setInfoModalOpen(true)}
-                    >
-                      Más información
-                    </button>
-                  </div>
-                </div>
-                <LinearProgressWithLabel value={20} />
+                <Typography variant="h6" gutterBottom component="div">
+                  Avances del Proyecto
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setAdvanceModalOpen(true)}
+                  sx={{ mb: 2 }}
+                >
+                  Registrar Avance
+                </Button>
+                <List>
+                  {advances.map((advance, index) => (
+                    <ListItem key={index}>
+                      <ListItemIcon>
+                        <FolderOpenIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={advance.description}
+                        secondary={new Date(advance.date).toLocaleDateString()}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
               </Box>
             </Box>
           </Collapse>
         </TableCell>
       </TableRow>
+
       <EditModal
         open={editModalOpen}
         handleClose={() => setEditModalOpen(false)}
         project={row}
-        onSave={(formData) => onEdit(formData)}
+        onSave={props.onEdit}
       />
+
       <InfoModal
         open={infoModalOpen}
         handleClose={() => setInfoModalOpen(false)}
         project={row}
       />
+
       <AdvanceModal
         open={advanceModalOpen}
         handleClose={() => setAdvanceModalOpen(false)}
         project={row}
         onSuccess={loadAdvances}
       />
-      {/* Modal de confirmación de eliminación */}
+
       <ModalConfirmarEliminacion
-        open={confirmDeleteOpen}
+        open={deleteModalOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        title="¿Eliminar Proyecto?"
-        description={"¿Estás seguro de que deseas eliminar este proyecto? Esta acción no se puede deshacer."}
-        confirmText="Eliminar"
-        cancelText="Cancelar"
+        title="Eliminar Proyecto"
+        message="¿Estás seguro de que deseas eliminar este proyecto? Esta acción no se puede deshacer."
       />
     </React.Fragment>
   );
 }
 
-// Componente principal
 export default function ListProject() {
-  const [page, setPage] = React.useState(1);
-  const [search, setSearch] = React.useState("");
   const [projects, setProjects] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [page, setPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
+  const [searchTerm, setSearchTerm] = React.useState('');
   const [snackbar, setSnackbar] = React.useState({
     open: false,
     message: '',
     severity: 'success'
   });
-  const rowsPerPage = 5;
-  const role = localStorage.getItem('@role');
+
   const fetchProjects = async () => {
     try {
-      const response = await getAllProjects();
-      if (response.success && response.body.data) {
+      setLoading(true);
+      const response = await getAllProjects(page, searchTerm);
+      if (response.success) {
         setProjects(response.body.data);
-      } else {
-        setProjects([]);
-        setSnackbar({
-          open: true,
-          message: 'Error al cargar los proyectos',
-          severity: 'error'
-        });
+        setTotalPages(Math.ceil(response.body.total / 10));
       }
     } catch (error) {
-      console.error('Error fetching projects:', error);
-      setProjects([]);
+      console.error('Error al cargar proyectos:', error);
       setSnackbar({
         open: true,
         message: 'Error al cargar los proyectos',
@@ -998,50 +796,36 @@ export default function ListProject() {
 
   React.useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [page, searchTerm]);
 
   const handleEdit = async (projectId, formData) => {
     try {
-      setSnackbar({
-        open: true,
-        message: 'Guardando cambios...',
-        severity: 'info'
-      });
-
       let response;
       if (localStorage.getItem('@role') === 'Coordinador') {
-        // Si es coordinador, actualizar solo el estado
         response = await updateStatus(projectId, formData);
       } else {
-        // Si es profesor, actualizar el proyecto
         response = await updateProject(projectId, formData);
       }
 
       if (response.success) {
-        await fetchProjects();
         setSnackbar({
           open: true,
-          message: localStorage.getItem('@role') === 'Coordinador' 
-            ? 'Estado del proyecto actualizado correctamente'
-            : 'Proyecto actualizado correctamente',
+          message: 'Proyecto actualizado exitosamente',
           severity: 'success'
         });
+        fetchProjects();
       } else {
         setSnackbar({
           open: true,
-          message: localStorage.getItem('@role') === 'Coordinador'
-            ? 'Error al actualizar el estado del proyecto'
-            : 'Error al actualizar el proyecto',
+          message: 'Error al actualizar el proyecto: ' + response.message,
           severity: 'error'
         });
       }
     } catch (error) {
-      console.error('Error updating:', error);
+      console.error('Error:', error);
       setSnackbar({
         open: true,
-        message: localStorage.getItem('@role') === 'Coordinador'
-          ? 'Error al actualizar el estado del proyecto'
-          : 'Error al actualizar el proyecto',
+        message: 'Error al actualizar el proyecto',
         severity: 'error'
       });
     }
@@ -1049,29 +833,23 @@ export default function ListProject() {
 
   const handleDelete = async (projectId) => {
     try {
-      setSnackbar({
-        open: true,
-        message: 'Eliminando proyecto...',
-        severity: 'info'
-      });
-
       const response = await deleteProject(projectId);
       if (response.success) {
-        await fetchProjects();
         setSnackbar({
           open: true,
-          message: 'Proyecto eliminado correctamente',
+          message: 'Proyecto eliminado exitosamente',
           severity: 'success'
         });
+        fetchProjects();
       } else {
         setSnackbar({
           open: true,
-          message: 'Error al eliminar el proyecto',
+          message: 'Error al eliminar el proyecto: ' + response.message,
           severity: 'error'
         });
       }
     } catch (error) {
-      console.error('Error deleting project:', error);
+      console.error('Error:', error);
       setSnackbar({
         open: true,
         message: 'Error al eliminar el proyecto',
@@ -1084,84 +862,67 @@ export default function ListProject() {
     setSnackbar(prev => ({ ...prev, open: false }));
   };
 
-  // Lógica de filtrado
-  const filteredProjects = Array.isArray(projects) ? projects.filter(project =>
-    project.title?.toLowerCase().includes(search.toLowerCase())
-  ) : [];
-
-  // Calcular el índice inicial y final para la paginación
-  const indexOfLastRow = page * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentProjects = filteredProjects.slice(indexOfFirstRow, indexOfLastRow);
-
   const handlePageChange = (event, value) => {
     setPage(value);
   };
 
-  if (loading) {
-    return <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-      <Typography>Cargando proyectos...</Typography>
-    </Box>;
-  }
-
   return (
-    <Box>
-      <div className="table-header-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <Typography variant="h4" component="h1" sx={{ color: '#1976d2', fontWeight: 'bold' }}>
-          Lista de Proyectos
-        </Typography>
-        <div className="search-wrapper">
-          <SearchIcon className="search-icon" />
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Buscar proyecto..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-        </div>
-      </div>
+    <Box sx={{ width: '100%' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+        <TextField
+          label="Buscar Proyectos"
+          variant="outlined"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell>TÍTULO</TableCell>
-              <TableCell align="center">Área</TableCell>
-              <TableCell align="center">Institución</TableCell>
-              <TableCell align="center">Cronograma</TableCell>
-              <TableCell align="center">Estado</TableCell>
-              {role !== 'Estudiante' && <TableCell align="center">Acciones</TableCell>}
+              <TableCell>Proyecto</TableCell>
+              <TableCell align="right">Área</TableCell>
+              <TableCell align="right">Estado</TableCell>
+              <TableCell align="right">Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentProjects.map((project) => (
-              <Row 
-                key={project._id} 
-                row={project} 
-                onEdit={(formData) => handleEdit(project._id, formData)}
+            {projects.map((project) => (
+              <Row
+                key={project._id}
+                row={project}
+                onEdit={handleEdit}
                 onDelete={handleDelete}
-                role={role}
               />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Box sx={{ display: 'flex', justifyContent: 'right', mt: 3, mb: 2 }}>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
         <Stack spacing={2}>
           <Pagination
-            count={Math.ceil(filteredProjects.length / rowsPerPage)}
+            count={totalPages}
             page={page}
             onChange={handlePageChange}
             color="primary"
           />
         </Stack>
       </Box>
+
       <Snackbar
         open={snackbar.open}
-        autoHideDuration={3000}
+        autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
         <Alert
           onClose={handleCloseSnackbar}

@@ -77,7 +77,6 @@ const getSidebarSections = (role) => {
     },
   ];
 
-  // Filter sections based on role
   return allSections.map(section => ({
     ...section,
     items: section.items
@@ -255,13 +254,7 @@ const Plantilla = () => {
             }}
             sx={{
               display: { xs: 'block', sm: 'none' },
-              '& .MuiDrawer-paper': {
-                boxSizing: 'border-box',
-                width: drawerWidth,
-                top: '64px',
-                height: 'calc(100% - 64px)',
-                boxShadow: '2px 0 8px rgba(0, 0, 0, 0.15)'
-              },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
             }}
           >
             {drawer}
@@ -270,35 +263,19 @@ const Plantilla = () => {
             variant="permanent"
             sx={{
               display: { xs: 'none', sm: 'block' },
-              '& .MuiDrawer-paper': {
-                boxSizing: 'border-box',
-                width: drawerWidth,
-                top: '64px',
-                height: 'calc(100% - 64px)',
-                boxShadow: '2px 0 8px rgba(0, 0, 0, 0.15)'
-              },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, marginTop: '64px' },
             }}
             open
           >
             {drawer}
           </Drawer>
         </Box>
-
         <Box
           component="main"
-          sx={{
-            flexGrow: 1,
-            p: 3,
-            background: 'transparent',
-            minHeight: '100vh',
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
-          }}
+          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
-          <div id="layout-content">
-            <Box sx={{ mt: 2 }}>
-              <Outlet />
-            </Box>
-          </div>
+          <Toolbar />
+          <Outlet />
         </Box>
       </Box>
     </div>

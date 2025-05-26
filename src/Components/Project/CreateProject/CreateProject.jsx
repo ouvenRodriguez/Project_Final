@@ -27,9 +27,9 @@ import { createProject } from "../../../Api/Project";
 import { getAllStudents } from "../../../Api/user";
 import "./CreateProject.css";
 import { useNavigate } from "react-router-dom";
+
 const CreateProject = () => {
   const navigate = useNavigate();
-  // Estado para guardar los datos del formulario
   const [formData, setFormData] = useState({
     title: "",
     area: "",
@@ -43,13 +43,11 @@ const CreateProject = () => {
     observations: "",
   });
 
-  // Estado para la lista de estudiantes y miembros del equipo
   const [students, setStudents] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [studentSearch, setStudentSearch] = useState("");
 
-  // Cargar estudiantes al iniciar el componente
   useEffect(() => {
     const loadStudents = async () => {
       try {
@@ -64,7 +62,6 @@ const CreateProject = () => {
     loadStudents();
   }, []);
 
-  // Función para manejar cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -73,7 +70,6 @@ const CreateProject = () => {
     });
   };
 
-  // Función para manejar cambios en las fechas
   const handleDateChange = (type, date) => {
     setFormData({
       ...formData,
@@ -84,55 +80,43 @@ const CreateProject = () => {
     });
   };
 
-  // Función para agregar un estudiante al equipo
   const addStudentToTeam = () => {
     if (selectedStudent !== null) {
-      // Agregar el estudiante seleccionado al equipo
       const newTeamMembers = [...teamMembers, students[selectedStudent]];
       setTeamMembers(newTeamMembers);
       
-      // Remover el estudiante de la lista de estudiantes disponibles
       const newStudents = students.filter((_, idx) => idx !== selectedStudent);
       setStudents(newStudents);
       
-      // Limpiar la selección
       setSelectedStudent(null);
     }
   };
 
-  // Función para remover un miembro del equipo
   const removeMember = (index) => {
-    // Guardar el miembro que se va a remover
     const memberToReturn = teamMembers[index];
     
-    // Remover el miembro del equipo
     const newTeamMembers = teamMembers.filter((_, i) => i !== index);
     setTeamMembers(newTeamMembers);
     
-    // Devolver el miembro a la lista de estudiantes
     const newStudents = [...students, memberToReturn];
     setStudents(newStudents);
   };
 
-  // Filtrar estudiantes según el buscador
   const filteredStudents = students.filter(student =>
     student.name?.toLowerCase().includes(studentSearch.toLowerCase()) ||
     student.email?.toLowerCase().includes(studentSearch.toLowerCase())
   );
 
-  // Función para enviar el formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validar campos requeridos
     if (!formData.title || !formData.area || !formData.objectives || 
-        !formData.schedule.startDate || !formData.schedule.endDate || 
+        !formData.schedule.endDate || 
         !formData.budget || !formData.institution || teamMembers.length === 0) {
       alert("Por favor, completa todos los campos requeridos");
       return;
     }
 
-    // Preparar los datos para enviar a la API
     const projectData = {
       ...formData,
       teamMembers: teamMembers.map(member => ({
@@ -147,7 +131,6 @@ const CreateProject = () => {
       
       if (response.success) {
         alert("¡Proyecto creado exitosamente!");
-        // Limpiar el formulario
         setFormData({
           title: "",
           area: "",
@@ -177,7 +160,6 @@ const CreateProject = () => {
         Formulario de Proyecto
       </Typography>
 
-      {/* Sección de información básica */}
       <div className="row-two">
         <TextField
           label="Título del Proyecto"
@@ -205,7 +187,6 @@ const CreateProject = () => {
         </FormControl>
       </div>
 
-      {/* Sección de objetivos */}
       <div className="row-full">
         <TextField
           label="Objetivos"
@@ -218,7 +199,6 @@ const CreateProject = () => {
         />
       </div>
 
-      {/* Sección de fechas, presupuesto e institución */}
       <div className="row-three">
         <Calendar
           startDate={formData.schedule.startDate}
@@ -249,72 +229,72 @@ const CreateProject = () => {
             onChange={handleChange}
           >
             <MenuItem value="Universidad Nacional">Universidad Nacional</MenuItem>
-            <MenuItem value="Universidad de Antioquia">Universidad de Antioquia</MenuItem>
-            <MenuItem value="Universidad de Medellín">Universidad de Medellín</MenuItem>
-            <MenuItem value="Universidad EAFIT">Universidad EAFIT</MenuItem>
-            <MenuItem value="Universidad Pontificia Bolivariana">Universidad Pontificia Bolivariana</MenuItem>
+            <MenuItem value="Universidad de los Andes">Universidad de los Andes</MenuItem>
+            <MenuItem value="Universidad Javeriana">Universidad Javeriana</MenuItem>
+            <MenuItem value="Universidad del Rosario">Universidad del Rosario</MenuItem>
+            <MenuItem value="Universidad Externado">Universidad Externado</MenuItem>
           </Select>
         </FormControl>
       </div>
 
-      {/* Sección de selección de equipo */}
-      <div className="team-container">
-        {/* Lista de estudiantes disponibles */}
-        <Paper className="student-paper">
-          <Typography variant="h6">Estudiantes Disponibles</Typography>
-          <List className="student-list-scroll">
-            {filteredStudents.map((student, idx) => (
-              <React.Fragment key={student._id}>
-                <ListItem
-                  className={`student-list-item ${selectedStudent === idx ? "student-selected" : "student-item"}`}
-                  onClick={() => setSelectedStudent(idx)}
-                >
-                  <ListItemAvatar>
-                    <Avatar className="student-avatar">
-                      <PersonIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={<span className="student-name">{`${student.name} ${student.lastName}`}</span>}
-                    secondary={<span className="student-info">Email: {student.email}</span>}
-                  />
-                </ListItem>
-                {idx < filteredStudents.length - 1 && <Divider variant="inset" component="li" />}
-              </React.Fragment>
-            ))}
-          </List>
-          {/* Buscador debajo de la lista */}
-          <div className="student-search-wrapper">
-            <span role="img" aria-label="Buscar">🔍</span>
-            <input
-              type="text"
-              className="student-search-input"
-              placeholder="Buscar estudiante..."
+      <div className="row-full">
+        <TextField
+          label="Observaciones"
+          name="observations"
+          value={formData.observations}
+          onChange={handleChange}
+          multiline
+          rows={3}
+        />
+      </div>
+
+      <div className="row-full">
+        <Paper elevation={3} sx={{ p: 2, width: '100%' }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Equipo de Trabajo
+          </Typography>
+
+          <div className="search-container">
+            <TextField
+              label="Buscar Estudiante"
               value={studentSearch}
-              onChange={e => setStudentSearch(e.target.value)}
-              aria-label="Buscar estudiante"
+              onChange={(e) => setStudentSearch(e.target.value)}
+              fullWidth
+              sx={{ mb: 2 }}
             />
+
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <InputLabel id="student-select-label">Seleccionar Estudiante</InputLabel>
+              <Select
+                labelId="student-select-label"
+                value={selectedStudent !== null ? selectedStudent : ""}
+                label="Seleccionar Estudiante"
+                onChange={(e) => setSelectedStudent(e.target.value)}
+              >
+                {filteredStudents.map((student, index) => (
+                  <MenuItem key={student._id} value={index}>
+                    {student.name} - {student.email}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <Button
+              variant="contained"
+              onClick={addStudentToTeam}
+              disabled={selectedStudent === null}
+              startIcon={<ArrowForwardIcon />}
+            >
+              Agregar al Equipo
+            </Button>
           </div>
-        </Paper>
 
-        {/* Botón para agregar estudiante */}
-        <div className="arrow-container">
-          <IconButton
-            color="primary"
-            onClick={addStudentToTeam}
-            disabled={selectedStudent === null}
-          >
-            <ArrowForwardIcon />
-          </IconButton>
-        </div>
+          <Divider sx={{ my: 2 }} />
 
-        {/* Lista de miembros del equipo */}
-        <Paper className="team-paper">
-          <Typography variant="h6">Miembros del Equipo</Typography>
-          <List className="student-list-scroll team-list">
+          <List>
             {teamMembers.map((member, index) => (
               <ListItem
-                key={index}
+                key={member._id}
                 secondaryAction={
                   <IconButton edge="end" onClick={() => removeMember(index)}>
                     <DeleteIcon />
@@ -322,11 +302,13 @@ const CreateProject = () => {
                 }
               >
                 <ListItemAvatar>
-                  <Avatar alt={member.name} src={member.avatar} className="team-avatar" />
+                  <Avatar>
+                    <PersonIcon />
+                  </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                  primary={<span className="team-name">{`${member.name} ${member.lastName}`}</span>}
-                  secondary={<span className="team-info">Email: {member.email}</span>}
+                  primary={member.name}
+                  secondary={member.email}
                 />
               </ListItem>
             ))}
@@ -334,28 +316,17 @@ const CreateProject = () => {
         </Paper>
       </div>
 
-      {/* Campo de observaciones */}
-      <TextField
-        fullWidth
-        multiline
-        rows={4}
-        label="Observaciones Adicionales"
-        name="observations"
-        value={formData.observations}
-        onChange={handleChange}
-        className="observations-field"
-      />
-
-      {/* Botón de envío */}
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        onClick={handleSubmit}
-        className="submit-button"
-      >
-        Crear Proyecto
-      </Button>
+      <div className="row-full" style={{ marginTop: '20px' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          fullWidth
+          size="large"
+        >
+          Crear Proyecto
+        </Button>
+      </div>
     </Container>
   );
 };
