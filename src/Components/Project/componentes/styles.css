@@ -1,0 +1,166 @@
+/* Estilos para los modales */
+.advance-modal .MuiDialog-paper,
+.edit-modal .MuiDialog-paper,
+.info-modal .MuiDialog-paper {
+  border-radius: 15px;
+  padding: 20px;
+  min-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.advance-modal-title {
+  background-color: #1976d2;
+  color: white;
+  padding: 16px 24px;
+  margin: -20px -20px 20px -20px;
+  border-radius: 15px 15px 0 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+/* Estilos para los botones */
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.button-advance {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.button-advance:hover {
+  background-color: #1565c0;
+}
+
+.button-info {
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  color: #1976d2;
+  border: 1px solid #1976d2;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.button-info:hover {
+  background-color: #1976d2;
+  color: white;
+}
+
+/* Estilos para la información del proyecto */
+.data-section {
+  margin-bottom: 24px;
+}
+
+.data-header {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1976d2;
+  margin-bottom: 16px;
+}
+
+.data-row {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.data-label {
+  font-weight: 500;
+  min-width: 150px;
+  color: #666;
+}
+
+.data-value {
+  flex: 1;
+}
+
+.data-value.long-text {
+  white-space: pre-wrap;
+}
+
+/* Estilos para el equipo */
+.team-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.team-member {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+}
+
+/* Estilos para los botones de acción */
+.actions-container {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.edit-button,
+.delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+  background-color: rgba(25, 118, 210, 0.1);
+}
+
+.delete-button:hover {
+  background-color: rgba(211, 47, 47, 0.1);
+}
+
+.edit-icon {
+  color: #1976d2;
+}
+
+.delete-icon {
+  color: #d32f2f;
+}
+
+/* Estilos para la barra de búsqueda */
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: #666;
+}
+
+.search-input {
+  padding: 8px 12px 8px 40px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 14px;
+  width: 300px;
+  transition: all 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+} 

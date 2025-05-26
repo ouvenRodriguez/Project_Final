@@ -1,0 +1,12 @@
+#login-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content:center;
+  align-items: center;
+  background-image: url(/public/Register.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}

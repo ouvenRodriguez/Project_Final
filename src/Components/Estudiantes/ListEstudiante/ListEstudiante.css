@@ -1,0 +1,85 @@
+.list-content {
+  background-color: white !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  padding: 16px !important;
+  max-height: 600px !important;
+  overflow-y: auto !important;
+}
+
+.list-content::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.list-content::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+  border-radius: 4px !important;
+}
+
+.list-content::-webkit-scrollbar-thumb {
+  background: #888 !important;
+  border-radius: 4px !important;
+}
+
+.student-list .MuiListItem-root {
+  border-bottom: 1px solid #f0f0f0 !important;
+  margin-bottom: 8px !important;
+  border-radius: 4px !important;
+}
+
+.student-avatar {
+  background-color: #1976d2 !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.student-name {
+  font-weight: 500 !important;
+  font-size: 1.1rem !important;
+}
+
+.student-career {
+  color: #666 !important;
+  font-size: 0.9rem !important;
+}
+
+.student-info {
+  color: #888 !important;
+  font-size: 0.8rem !important;
+}
+
+.edit-button {
+  color: #1976d2 !important;
+  margin-right: 5px !important;
+}
+
+.edit-button:hover {
+  background-color: rgba(25, 118, 210, 0.1) !important;
+}
+
+.delete-button {
+  color: #EF5350 !important;
+}
+
+.delete-button:hover {
+  background-color: rgba(239, 83, 80, 0.1) !important;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 7px !important;
+}
+
+.delete-button,
+.edit-button {
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+}

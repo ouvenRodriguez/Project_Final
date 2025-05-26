@@ -1,0 +1,13 @@
+.MuiPaper-root {
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.MuiTextField-root {
+  margin-bottom: 16px;
+}
+
+.MuiButton-root {
+  text-transform: none;
+  font-weight: 600;
+}

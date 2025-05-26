@@ -1,0 +1,139 @@
+/* Contenedor principal del formulario */
+#container {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  font-family: 'Poppins', sans-serif !important;
+  gap: 24px !important;
+  padding: 16px !important;
+  max-width: 1000px !important;
+  margin: auto !important;
+}
+
+/* Estilos para las filas del formulario */
+.row-two,
+.row-full,
+.row-three {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+  padding-bottom: 20px !important;
+}
+
+/* Ancho de los campos en cada tipo de fila */
+.row-two .MuiTextField-root {
+  flex: 1 1 48% !important;  /* Dos campos por fila */
+  min-width: 250px !important;
+}
+
+.row-full .MuiTextField-root {
+  flex: 1 1 100% !important;  /* Un campo que ocupa toda la fila */
+}
+
+.row-three .MuiTextField-root {
+  flex: 1 1 30% !important;  /* Tres campos por fila */
+  min-width: 200px !important;
+}
+
+/* Estilos para los controles del formulario */
+.form-control {
+  flex: 1 !important;  /* Hace que los controles ocupen el espacio disponible */
+}
+
+/* Estilos para la sección de equipo */
+.team-container {
+  display: flex !important;
+  gap: 1rem !important;
+}
+
+/* Estilos para los paneles de estudiantes y equipo */
+.student-paper,
+.team-paper {
+  padding: 1rem !important;
+  flex: 1 !important;
+}
+
+.student-avatar, .team-avatar {
+  background-color: #1976d2 !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.student-name, .team-name {
+  font-weight: 500 !important;
+  font-size: 1.1rem !important;
+}
+
+.student-info, .team-info {
+  color: #888 !important;
+  font-size: 0.8rem !important;
+}
+
+/* Buscador debajo de la lista */
+.student-search-wrapper {
+  display: flex;
+  align-items: center;
+  margin: 12px 0 0 0;
+  padding: 0 8px;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  background: #fff;
+  height: 40px;
+  box-sizing: border-box;
+}
+.student-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 24px;
+  background: transparent;
+  margin-left: 8px;
+}
+
+/* Estilos para los items de la lista de estudiantes */
+.student-item {
+  transition: background 0.2s, transform 0.2s !important;
+}
+
+.student-list-item {
+  cursor: pointer !important;
+}
+
+/* Efectos al pasar el mouse y selección */
+.student-item:hover,
+.student-selected {
+  background: #e2efff !important;
+  transform: scale(1.03) !important;
+
+  transition: background 0.2s, transform 0.2s !important;
+}
+
+.student-item:hover .student-secondary,
+.student-selected .student-secondary {
+  color: white !important;
+}
+
+/* Contenedor del botón de flecha */
+.arrow-container {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Espaciado para campos adicionales */
+.observations-field {
+  margin-top: 1rem !important;
+}
+
+.submit-button {
+  margin-top: 1.5rem !important;
+}
+
+/* Limita la lista de estudiantes a 3 elementos con scroll */
+.student-list-scroll {
+  max-height: 210px; /* Aproximadamente 3 items + divisores, ajusta si es necesario */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
